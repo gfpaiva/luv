@@ -27,5 +27,6 @@ module.exports = {
       extensions: ['.js', '.ts', '.jsx', '.tsx'],
     }],
     'import/prefer-default-export': 0,
+    '@typescript-eslint/no-var-requires': 0,
   },
 };

@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
-import { config } from '../config';
-import { Main } from '../scenes';
+import { config } from './config';
+import { Main } from './scenes';
 
 class Game extends Phaser.Game {
   constructor() {
