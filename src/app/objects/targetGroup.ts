@@ -55,7 +55,7 @@ export default class TargetGroup {
 
     if (time > this.lastTarget) {
       if (!target) {
-        target = this.group.create(Phaser.Math.Between(50, 1280), -20);
+        target = this.group.create(Phaser.Math.Between(50, 1230), -20);
       }
 
       target.setVelocityY(Phaser.Math.Between(this.velocity[0], this.velocity[1]));

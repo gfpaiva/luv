@@ -26,8 +26,7 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
   }
 
   static kill(obj: Phaser.Physics.Arcade.Image): void {
-    obj.setActive(false);
-    obj.setVisible(false);
+    obj.destroy();
   }
 
   reset(x: number, y: number): void {

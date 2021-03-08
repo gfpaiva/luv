@@ -1,10 +1,12 @@
 import Phaser from 'phaser';
 
+import { Main } from '../scenes';
+
 import Shot from './shot';
 import Shooter from './shooter';
 
 export default class ShotGroup {
-  scene: Phaser.Scene
+  scene: Main
 
   group: Phaser.Physics.Arcade.Group
 
@@ -12,7 +14,7 @@ export default class ShotGroup {
 
   lastFired: number;
 
-  constructor(scene: Phaser.Scene, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
+  constructor(scene: Main, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
     this.scene = scene;
     this.group = this.scene.physics.add.group({
       classType: Shot,
@@ -32,15 +34,28 @@ export default class ShotGroup {
     if (cursors.space.isDown && time > this.lastFired) {
       this.scene.sound.play('shotSound');
 
-      let shot: Shot = this.group.getFirstDead();
+      if (this.scene.special) {
+        const paddingX = (x: number, multiple: number) => x + (10 * multiple);
+        const shots: Shot[] = new Array(5).fill(null).map((value, idx) => (
+          new Shot(this.scene, paddingX(shooter.x, idx), shooter.y)
+        ));
 
-      if (!shot) {
-        shot = new Shot(this.scene, shooter.x, shooter.y);
+        this.group.addMultiple(shots);
 
-        this.group.add(shot);
+        shots.forEach((shot, idx) => {
+          shot.reset(paddingX(shooter.x, idx), shooter.y);
+        });
+      } else {
+        let shot: Shot = this.group.getFirstDead();
+
+        if (!shot) {
+          shot = new Shot(this.scene, shooter.x, shooter.y);
+
+          this.group.add(shot);
+        }
+
+        shot.reset(shooter.x, shooter.y);
       }
-
-      shot.reset(shooter.x, shooter.y);
 
       this.lastFired = time + this.fireDelay;
     }
