@@ -30,6 +30,8 @@ export default class ShotGroup {
     shooter: Shooter,
   ): void {
     if (cursors.space.isDown && time > this.lastFired) {
+      this.scene.sound.play('shotSound');
+
       let shot: Shot = this.group.getFirstDead();
 
       if (!shot) {

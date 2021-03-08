@@ -1,10 +1,9 @@
 import Phaser from 'phaser';
 
-import { Main } from '../scenes';
 import Target from './target';
 
 export default class TargetGroup {
-  scene: Main;
+  scene: Phaser.Scene;
 
   group: Phaser.Physics.Arcade.Group;
 
@@ -14,7 +13,7 @@ export default class TargetGroup {
 
   velocity: number[];
 
-  constructor(scene: Main, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
+  constructor(scene: Phaser.Scene, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
     this.scene = scene;
     this.group = this.scene.physics.add.group({
       classType: Target,

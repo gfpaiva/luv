@@ -9,6 +9,9 @@ import Shot from '../objects/shot';
 import ShotGroup from '../objects/shotGroup';
 
 const music = require('url:../../assets/bg.mp3');
+const scoreSound = require('url:../../assets/score.mp3');
+const shotSound = require('url:../../assets/shot.mp3');
+const loseSound = require('url:../../assets/lose.mp3');
 
 export class Main extends Phaser.Scene {
   bg: Background | null;
@@ -33,22 +36,26 @@ export class Main extends Phaser.Scene {
     super('Main');
 
     this.bg = null;
+
     this.shooter = null;
     this.targets = null;
     this.shots = null;
+
     this.text = null;
 
     this.cursors = this.input?.keyboard?.createCursorKeys();
 
     this.level = 1;
     this.score = 0;
-    this.hp = 3;
+    this.hp = 5;
   }
 
   pointScore(
     sht: Phaser.Types.Physics.Arcade.GameObjectWithBody,
     tgt: Phaser.Types.Physics.Arcade.GameObjectWithBody,
   ): void {
+    this.sound.play('scoreSound');
+
     this.score += 1;
 
     if (this.score % 10 === 0) {
@@ -65,6 +72,8 @@ export class Main extends Phaser.Scene {
     platform: Phaser.Types.Physics.Arcade.GameObjectWithBody,
     tgt: Phaser.Types.Physics.Arcade.GameObjectWithBody,
   ): void {
+    this.sound.play('loseSound');
+
     this.hp -= 1;
 
     if (this.hp <= 0) {
@@ -82,25 +91,34 @@ export class Main extends Phaser.Scene {
     Shot.loadInScene(this);
 
     this.load.audio('music', [music]);
+    this.load.audio('scoreSound', [scoreSound]);
+    this.load.audio('shotSound', [shotSound]);
+    this.load.audio('loseSound', [loseSound]);
   }
 
   create(): void {
+    // Sound
     this.sound.play('music', {
       loop: true,
-      volume: 0.2,
+      volume: 0.5,
     });
 
+    // Background
     this.bg = new Background(this);
 
     this.text = this.add.text(100, 100, '...');
 
+    // Game Objects
     this.shooter = new Shooter(this);
-
     this.targets = new TargetGroup(this);
+    this.shots = new ShotGroup(this);
 
+    // Inputs
     this.cursors = this.input.keyboard.createCursorKeys();
 
-    this.shots = new ShotGroup(this);
+    // Physics and colliders
+    const end = this.physics.add.staticImage(0, 780, '').setOrigin(0, 0);
+    end.setSize(1280 * 2, 100);
 
     this.physics.add.overlap(
       this.shots.group,
@@ -109,10 +127,6 @@ export class Main extends Phaser.Scene {
       undefined,
       this,
     );
-
-    const end = this.physics.add.staticImage(0, 920, '').setOrigin(0, 0);
-    end.setSize(1280 * 2, 100);
-
     this.physics.add.collider(
       this.targets.group,
       end,
