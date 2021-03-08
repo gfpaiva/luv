@@ -1,8 +1,6 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
-import Shooter from './shooter';
-
 const shot = require('url:../../assets/sample-shot.png');
 
 export default class Shot extends Phaser.Physics.Arcade.Image {
@@ -27,6 +25,11 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
     scene.load.image('shoot', shot);
   }
 
+  static kill(obj: Phaser.Physics.Arcade.Image): void {
+    obj.setActive(false);
+    obj.setVisible(false);
+  }
+
   reset(x: number, y: number): void {
     this.setActive(true);
     this.setVisible(true);
@@ -39,8 +42,7 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
     this.y -= this.speed;
 
     if (this.lifespan <= 0) {
-      this.setActive(false);
-      this.setVisible(false);
+      Shot.kill(this);
     }
   }
 }

@@ -9,7 +9,7 @@ export default class Shooter extends Phaser.Physics.Arcade.Image {
   constructor(scene: Phaser.Scene) {
     super(scene, 640, 640, 'shooter');
 
-    this.velocityAmount = 720;
+    this.velocityAmount = 500;
 
     this.scene = scene;
     this.scene.physics.world.enable(this);

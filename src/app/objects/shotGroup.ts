@@ -12,9 +12,13 @@ export default class ShotGroup {
 
   lastFired: number;
 
-  constructor(scene: Phaser.Scene, config: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
+  constructor(scene: Phaser.Scene, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
     this.scene = scene;
-    this.group = this.scene.physics.add.group(config);
+    this.group = this.scene.physics.add.group({
+      classType: Shot,
+      runChildUpdate: true,
+      ...config,
+    });
 
     this.fireDelay = 100;
     this.lastFired = 0;
