@@ -27,6 +27,8 @@ export class Main extends Phaser.Scene {
 
   score: integer;
 
+  hp: integer;
+
   constructor() {
     super('Main');
 
@@ -40,6 +42,7 @@ export class Main extends Phaser.Scene {
 
     this.level = 1;
     this.score = 0;
+    this.hp = 3;
   }
 
   pointScore(
@@ -50,9 +53,26 @@ export class Main extends Phaser.Scene {
 
     if (this.score % 10 === 0) {
       this.level += 1;
+
+      this.targets?.updateDelay(this.level);
+      this.targets?.updateVelocity(this.level);
     }
 
-    this.targets?.collider(sht, tgt);
+    TargetGroup.collider(sht, tgt);
+  }
+
+  loseScore(
+    platform: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    tgt: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+  ): void {
+    this.hp -= 1;
+
+    if (this.hp <= 0) {
+      this.scene.stop('Main');
+      this.sound.stopAll();
+    }
+
+    TargetGroup.collider(undefined, tgt);
   }
 
   preload(): void {
@@ -89,10 +109,21 @@ export class Main extends Phaser.Scene {
       undefined,
       this,
     );
+
+    const end = this.physics.add.staticImage(0, 920, '').setOrigin(0, 0);
+    end.setSize(1280 * 2, 100);
+
+    this.physics.add.collider(
+      this.targets.group,
+      end,
+      this.loseScore,
+      undefined,
+      this,
+    );
   }
 
   update(time: number):void {
-    this.text?.setText(`Score: ${this.score}\nLevel: ${this.level}`);
+    this.text?.setText(`Score: ${this.score}\nLevel: ${this.level}\nHealth: ${this.hp}`);
 
     if (this.shooter) {
       this.shooter?.updateInScene(this.cursors);

@@ -8,9 +8,11 @@ export default class TargetGroup {
 
   group: Phaser.Physics.Arcade.Group;
 
-  targetsDelay: number;
+  targetsDelay: integer;
 
   lastTarget: number;
+
+  velocity: number[];
 
   constructor(scene: Main, config?: Phaser.Types.Physics.Arcade.PhysicsGroupConfig) {
     this.scene = scene;
@@ -20,24 +22,44 @@ export default class TargetGroup {
       ...config,
     });
 
-    this.targetsDelay = 1000;
+    this.targetsDelay = 1800;
     this.lastTarget = 0;
+
+    this.velocity = [50, 60];
   }
 
-  collider(
-    shot: Phaser.Types.Physics.Arcade.GameObjectWithBody,
-    tgt: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+  static collider(
+    shot?: Phaser.Types.Physics.Arcade.GameObjectWithBody,
+    tgt?: Phaser.Types.Physics.Arcade.GameObjectWithBody,
   ): void {
-    console.log('🚀 ~ file: targetGroup.ts ~ line 38 ~ TargetGroup ~ this.scene', this.scene);
-    shot.destroy();
-    tgt.destroy();
+    shot?.destroy();
+    tgt?.destroy();
+  }
+
+  updateDelay(level: integer): void {
+    if (level <= 15) {
+      this.targetsDelay = 1800 - (110 * level);
+    }
+  }
+
+  updateVelocity(level: integer): void {
+    let [initial, final] = this.velocity;
+
+    initial = 50 + (level * 10);
+    final = 60 + (level * 15);
+
+    this.velocity = [initial, final];
   }
 
   updateInScene(time: number): void {
-    if (time > this.lastTarget) {
-      const target = this.group.create(Phaser.Math.Between(50, 1870), 0);
+    let target: any;
 
-      target.setVelocityY(Phaser.Math.Between(0, 500), 20);
+    if (time > this.lastTarget) {
+      if (!target) {
+        target = this.group.create(Phaser.Math.Between(50, 1280), -20);
+      }
+
+      target.setVelocityY(Phaser.Math.Between(this.velocity[0], this.velocity[1]));
       target.allowGravity = false;
 
       this.lastTarget = time + this.targetsDelay;
