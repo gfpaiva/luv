@@ -2,10 +2,12 @@ import Phaser from 'phaser';
 
 import { Main } from '../scenes';
 
-import Shot from './shot';
-import Shooter from './shooter';
+import { Shot } from './shot';
+import { Shooter } from './shooter';
 
-export default class ShotGroup {
+import { specialShotsAmount } from '../config';
+
+export class ShotGroup {
   scene: Main
 
   group: Phaser.Physics.Arcade.Group
@@ -38,9 +40,11 @@ export default class ShotGroup {
 
       if (this.scene.special) {
         const paddingX = (x: number, multiple: number) => x + (10 * multiple);
-        const shots: Shot[] = new Array(5).fill(null).map((value, idx) => (
-          new Shot(this.scene, paddingX(shooter.x, idx), shooter.y)
-        ));
+        const shots: Shot[] = new Array(specialShotsAmount)
+          .fill(null)
+          .map((_, idx) => (
+            new Shot(this.scene, paddingX(shooter.x, idx), shooter.y)
+          ));
 
         this.group.addMultiple(shots);
 

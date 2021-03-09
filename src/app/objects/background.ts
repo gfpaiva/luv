@@ -3,9 +3,9 @@ import Phaser from 'phaser';
 
 const bg = require('url:../../assets/bg.jpg');
 
-export default class Background extends Phaser.GameObjects.Image {
+export class Background extends Phaser.GameObjects.Image {
   constructor(scene: Phaser.Scene) {
-    super(scene, 640, 640, 'bg');
+    super(scene, 0, 0, 'bg');
 
     this.scene = scene;
     this.scene.add.image(0, 0, 'bg')

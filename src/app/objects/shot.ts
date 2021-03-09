@@ -1,9 +1,11 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
+import { shotLifespan } from '../config';
+
 const shot = require('url:../../assets/shot.png');
 
-export default class Shot extends Phaser.Physics.Arcade.Image {
+export class Shot extends Phaser.Physics.Arcade.Image {
   speed: integer;
 
   lifespan: integer;
@@ -16,7 +18,7 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
     this.scene.add.existing(this);
 
     this.speed = 3;
-    this.lifespan = 1450;
+    this.lifespan = shotLifespan;
   }
 
   static loadInScene(scene: Phaser.Scene): void {
@@ -31,12 +33,12 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
     this.setActive(true);
     this.setVisible(true);
 
-    this.lifespan = 1450;
+    this.lifespan = shotLifespan;
 
     this.setPosition(x, y);
   }
 
-  update(time: number, delta: number): void {
+  update(_: number, delta: number): void {
     this.lifespan -= delta;
     this.y -= this.speed;
 

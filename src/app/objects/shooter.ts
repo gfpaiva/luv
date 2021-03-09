@@ -1,14 +1,16 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
+import { center } from '../config';
+
 const shooter = require('url:../../assets/shooter.png');
 const shooterSpecial = require('url:../../assets/shooter-special.png');
 
-export default class Shooter extends Phaser.Physics.Arcade.Image {
+export class Shooter extends Phaser.Physics.Arcade.Image {
   velocityAmount: integer;
 
   constructor(scene: Phaser.Scene) {
-    super(scene, 640, 640, 'shooter');
+    super(scene, center, center, 'shooter');
 
     this.velocityAmount = 500;
 

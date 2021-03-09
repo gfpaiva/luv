@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 
 const target = require('url:../../assets/target.png');
 
-export default class Target extends Phaser.Physics.Arcade.Image {
+export class Target extends Phaser.Physics.Arcade.Image {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, 'target');
 

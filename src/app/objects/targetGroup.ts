@@ -1,8 +1,13 @@
 import Phaser from 'phaser';
 
-import Target from './target';
+import { Target } from './target';
 
-export default class TargetGroup {
+import {
+  displayXRange,
+  displayHiddenTop,
+} from '../config';
+
+export class TargetGroup {
   scene: Phaser.Scene;
 
   group: Phaser.Physics.Arcade.Group;
@@ -36,7 +41,7 @@ export default class TargetGroup {
   }
 
   updateDelay(level: integer): void {
-    if (level <= 15) {
+    if (level <= 8) {
       this.targetsDelay = 1800 - (145 * level);
     }
   }
@@ -52,10 +57,14 @@ export default class TargetGroup {
 
   updateInScene(time: number): void {
     let target: any;
+    const [initialX, finalX] = displayXRange;
 
     if (time > this.lastTarget) {
       if (!target) {
-        target = this.group.create(Phaser.Math.Between(50, 1230), -20);
+        target = this.group.create(
+          Phaser.Math.Between(initialX, finalX),
+          displayHiddenTop,
+        );
       }
 
       target.setVelocityY(Phaser.Math.Between(this.velocity[0], this.velocity[1]));

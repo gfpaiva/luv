@@ -1,13 +1,24 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
-import Background from '../objects/background';
-import Shooter from '../objects/shooter';
-import Target from '../objects/target';
-import TargetGroup from '../objects/targetGroup';
-import Shot from '../objects/shot';
-import ShotGroup from '../objects/shotGroup';
-import SpecialTrigger from '../objects/specialTrigger';
+import {
+  Background,
+  Shooter,
+  Target,
+  TargetGroup,
+  Shot,
+  ShotGroup,
+  SpecialTrigger,
+} from '../objects';
+
+import {
+  displayHiddenBottom,
+  displayPadding,
+  levelUpScore,
+  specialDelay,
+  specialShotDuration,
+  width,
+} from '../config';
 
 const music = require('url:../../assets/bg.mp3');
 const scoreSound = require('url:../../assets/score.mp3');
@@ -66,7 +77,7 @@ export class Main extends Phaser.Scene {
 
     this.score += 1;
 
-    if (this.score % 10 === 0) {
+    if (this.score % levelUpScore === 0) {
       this.level += 1;
 
       this.targets?.updateDelay(this.level);
@@ -101,7 +112,7 @@ export class Main extends Phaser.Scene {
     setTimeout(() => {
       this.special = false;
       this.shooter?.updateTexture(this.special);
-    }, 5000);
+    }, specialShotDuration);
   }
 
   preload(): void {
@@ -127,7 +138,7 @@ export class Main extends Phaser.Scene {
     // Background
     this.bg = new Background(this);
 
-    this.text = this.add.text(25, 0, '...');
+    this.text = this.add.text(displayPadding, displayPadding, '...');
 
     // Game Objects
     this.shooter = new Shooter(this);
@@ -138,8 +149,8 @@ export class Main extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys();
 
     // Physics and colliders
-    const end = this.physics.add.staticImage(0, 780, '').setOrigin(0, 0);
-    end.setSize(1280 * 2, 100);
+    const end = this.physics.add.staticImage(0, displayHiddenBottom, '').setOrigin(0, 0);
+    end.setSize(width * 2, 100);
 
     this.physics.add.overlap(
       this.shots.group,
@@ -157,9 +168,10 @@ export class Main extends Phaser.Scene {
     );
 
     // Spcecial event
-    this.specialTrigger = new SpecialTrigger(this, Phaser.Math.Between(50, 1230), -100);
+    const [initialDelay, finalDelay] = specialDelay;
+    this.specialTrigger = new SpecialTrigger(this);
     this.time.addEvent({
-      delay: Phaser.Math.Between(8000, 35000),
+      delay: Phaser.Math.Between(initialDelay, finalDelay),
       loop: true,
       callback: () => {
         if (!this.special) {
@@ -187,7 +199,13 @@ export class Main extends Phaser.Scene {
   }
 
   update(time: number):void {
-    this.text?.setText(`\n\n💘: ${this.score}\n\n\n⭐: ${this.level}\n\n\n💔: ${this.hp}`);
+    this.text?.setText(`
+    💘: ${this.score}
+
+    ⭐: ${this.level}
+
+    💔: ${this.hp}
+    `);
 
     if (this.shooter) {
       this.shooter?.updateInScene(this.cursors);

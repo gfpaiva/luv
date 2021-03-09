@@ -3,13 +3,16 @@ import Phaser from 'phaser';
 
 import { Main } from '../scenes';
 
+import { displayXRange } from '../config';
+
 const special = require('url:../../assets/special-trigger.png');
 
-export default class SpecialTrigger extends Phaser.Physics.Arcade.Image {
+export class SpecialTrigger extends Phaser.Physics.Arcade.Image {
   scene: Main;
 
-  constructor(scene: Main, x: number, y: number) {
-    super(scene, x, y, 'special');
+  constructor(scene: Main) {
+    const [initialX, finalX] = displayXRange;
+    super(scene, Phaser.Math.Between(initialX, finalX), -100, 'special');
 
     this.scene = scene;
     this.scene.physics.world.enable(this);
@@ -21,8 +24,12 @@ export default class SpecialTrigger extends Phaser.Physics.Arcade.Image {
   }
 
   resetPosition(): void {
+    const [initialX, finalX] = displayXRange;
     this.setVelocity(0);
-    this.setPosition(Phaser.Math.Between(50, 1230), -100);
+    this.setPosition(
+      Phaser.Math.Between(initialX, finalX),
+      (this.height * -1),
+    );
   }
 
   trigger(): void {
