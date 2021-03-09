@@ -1,3 +1,3 @@
 # Luv
 
-## A game full of love 😍
+A game full of love 😍
