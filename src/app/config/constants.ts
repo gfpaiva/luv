@@ -4,7 +4,7 @@ export const height = 720;
 export const center = width / 2;
 
 // Shot and special shot
-export const shotLifespan = 1450;
+export const shotLifespan = 1380;
 export const specialShotsAmount = 5;
 
 // In/out display, safezone

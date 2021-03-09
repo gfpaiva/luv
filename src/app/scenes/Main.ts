@@ -36,7 +36,7 @@ export class Main extends Phaser.Scene {
 
   text: Phaser.GameObjects.Text | null;
 
-  cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+  cursors: Phaser.Types.Input.Keyboard.CursorKeys | null;
 
   level: integer;
 
@@ -59,11 +59,11 @@ export class Main extends Phaser.Scene {
 
     this.text = null;
 
-    this.cursors = this.input?.keyboard?.createCursorKeys();
+    this.cursors = null;
 
     this.level = 1;
     this.score = 0;
-    this.hp = 3;
+    this.hp = 1;
 
     this.special = false;
     this.specialTrigger = null;
@@ -88,6 +88,8 @@ export class Main extends Phaser.Scene {
   }
 
   gameover(): void {
+    this.cursors = null;
+    this.input.keyboard.clearCaptures();
     this.scene.stop('Main');
     this.sound.stopAll();
 
@@ -153,7 +155,11 @@ export class Main extends Phaser.Scene {
     // Background
     this.bg = new Background(this);
 
+    // Display texts
     this.text = this.add.text(displayPadding, displayPadding, '...');
+
+    // Keyboard inputs
+    this.cursors = this.input.keyboard.createCursorKeys();
 
     // Game Objects
     this.shooter = new Shooter(this);
@@ -222,7 +228,7 @@ export class Main extends Phaser.Scene {
     💔: ${this.hp}
     `);
 
-    if (this.shooter) {
+    if (this.shooter && this.cursors) {
       this.shooter?.updateInScene(this.cursors);
       this.shots?.updateInScene(time, this.cursors, this.shooter);
     }
