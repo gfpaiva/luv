@@ -17,5 +17,5 @@ export const displayHiddenBottom = height + displayPadding;
 export const levelUpScore = 10;
 
 // Special Event
-export const specialShotDuration = 5000;
+export const specialShotDuration = 8500;
 export const specialDelay = [8000, 35000];

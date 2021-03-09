@@ -13,14 +13,133 @@
 
     <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+
     <style>
       body {
         background-color: #000;
+        color: #fff;
+        font-family: 'DotGothic16', sans-serif;
+      }
+
+      h2,
+      small {
+        display: block;
+        text-align: center;
+      }
+
+      .container {
+        align-items: center;
+        display: flex;
+        height: 100vh;
+        justify-content: center;
+        width: 100vw;
+      }
+
+      .btn {
+        background-color: #fff;
+        border: none;
+        display: block;
+        margin: 0 auto;
+        padding: 1rem 2rem;
+        transition: transform .25s;
+      }
+
+      .btn:hover {
+        transform: scale(0.9);
+      }
+
+      .hide {
+        display: none !important;
+      }
+
+      .name-input {
+        border: none;
+        margin-bottom: 1rem;
+        padding: 1rem;
+        width: 100%;
+      }
+
+      .leaderboard {
+        margin-bottom: 1rem;
+        max-height: 50vh;
+        overflow: auto;
+        padding: 1rem;
+      }
+
+      table, td {
+        border-collapse: collapse;
+        border: 1px solid #fff;
+        padding: .5rem;
+      }
+
+      thead {
+        background-color: #fff;
+        color: #000;
+      }
+
+      tbody > tr > td + td {
+        text-align: right;
       }
     </style>
 </head>
 <body>
-    <div id="game-container"></div>
+    <div id="instructions" class="container">
+      <div>
+        <h2>🎉🎉 UHU!!! Parabéns 🎉🎉</h2>
+        <p>Este é seu primeiro passo para ser gamer.</p>
+        <p>O jogo é simples:</p>
+        <ul>
+          <li>Use as setas do teclado para movimentar;</li>
+          <li>Aperte ou segure barra de espaço para disparar amô pro mozão;</li>
+          <li>Colete os corações pretos para ativar o bônus.</li>
+        </ul>
+        <p>E a pontuação é assim:</p>
+        <ul>
+          <li>💘 pontuação atual</li>
+          <li>⭐ level de dificuldade</li>
+          <li>💔 vida restante</li>
+        </ul>
+        <p>No final só conferir a pontuação e a posição no leaderboard.</p>
+
+        <button class="btn" id="play">
+          💘 Jogar! 💘
+        </button>
+      </div>
+    </div>
+
+    <div id="game-container" class="hide"></div>
+
+    <div id="gameover" class="container hide">
+      <div>
+        <h2>Cabô! 🙁</h2>
+        <p>Sua pontuação foi de: <strong id="score"></strong></p>
+        <form id="form">
+          <p>Envie sua pontuação para a leaderboard: </p>
+          <input class="name-input" type="text" placeholder="Nome" name="name" autocomplete="off" required />
+          <button  class="btn" type="submit">
+            💘 Enviar! 💘
+          </button>
+        </form>
+        <div id="leaderboard-container" class="hide">
+          <p>Leaderboard:</p>
+          <div class="leaderboard">
+            <table>
+              <thead>
+                <tr>
+                  <td>Nome</td>
+                  <td>Pontuação</td>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-data"></tbody>
+            </table>
+          </div>
+          <small>Nunca vai me passar</small>
+        </div>
+      </div>
+    </div>
+
     <script src="app/index.ts"></script>
 </body>
 </html>

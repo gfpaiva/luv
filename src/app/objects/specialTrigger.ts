@@ -33,7 +33,7 @@ export class SpecialTrigger extends Phaser.Physics.Arcade.Image {
   }
 
   trigger(): void {
-    const velocityWithLevel = 50 * this.scene.level;
+    const velocityWithLevel = 40 * this.scene.level;
     this.setVelocityY(velocityWithLevel);
   }
 }

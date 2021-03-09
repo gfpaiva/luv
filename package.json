@@ -49,6 +49,7 @@
     "postcss": "^8.2.6"
   },
   "dependencies": {
+    "firebase": "^8.2.10",
     "normalize.css": "^8.0.1",
     "phaser": "^3.52.0"
   }

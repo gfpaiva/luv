@@ -2,6 +2,15 @@
 import Phaser from 'phaser';
 
 import {
+  displayHiddenBottom,
+  displayPadding,
+  levelUpScore,
+  specialDelay,
+  specialShotDuration,
+  width,
+} from '../config';
+
+import {
   Background,
   Shooter,
   Target,
@@ -10,15 +19,6 @@ import {
   ShotGroup,
   SpecialTrigger,
 } from '../objects';
-
-import {
-  displayHiddenBottom,
-  displayPadding,
-  levelUpScore,
-  specialDelay,
-  specialShotDuration,
-  width,
-} from '../config';
 
 const music = require('url:../../assets/bg.mp3');
 const scoreSound = require('url:../../assets/score.mp3');
@@ -87,6 +87,22 @@ export class Main extends Phaser.Scene {
     TargetGroup.collider(sht, tgt);
   }
 
+  gameover(): void {
+    this.scene.stop('Main');
+    this.sound.stopAll();
+
+    const gameContainer = document.getElementById('game-container');
+    const gameover = document.getElementById('gameover');
+    const score = document.getElementById('score');
+
+    if (score) {
+      score.textContent = `${this.score}`;
+    }
+
+    gameContainer?.classList.add('hide');
+    gameover?.classList.remove('hide');
+  }
+
   loseScore(
     _: Phaser.Types.Physics.Arcade.GameObjectWithBody,
     tgt: Phaser.Types.Physics.Arcade.GameObjectWithBody,
@@ -96,8 +112,7 @@ export class Main extends Phaser.Scene {
     this.hp -= 1;
 
     if (this.hp <= 0) {
-      this.scene.stop('Main');
-      this.sound.stopAll();
+      this.gameover();
     }
 
     TargetGroup.collider(undefined, tgt);
