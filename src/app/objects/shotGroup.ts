@@ -32,7 +32,9 @@ export default class ShotGroup {
     shooter: Shooter,
   ): void {
     if (cursors.space.isDown && time > this.lastFired) {
-      this.scene.sound.play('shotSound');
+      this.scene.sound.play('shotSound', {
+        volume: 0.2,
+      });
 
       if (this.scene.special) {
         const paddingX = (x: number, multiple: number) => x + (10 * multiple);

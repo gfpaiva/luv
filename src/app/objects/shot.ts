@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
-const shot = require('url:../../assets/sample-shot.png');
+const shot = require('url:../../assets/shot.png');
 
 export default class Shot extends Phaser.Physics.Arcade.Image {
   speed: integer;
@@ -17,8 +17,6 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
 
     this.speed = 5;
     this.lifespan = 5;
-
-    this.setScale(2);
   }
 
   static loadInScene(scene: Phaser.Scene): void {

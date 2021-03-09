@@ -1,7 +1,8 @@
 /* eslint-disable import/no-unresolved */
 import Phaser from 'phaser';
 
-const shooter = require('url:../../assets/sample-shooter.png');
+const shooter = require('url:../../assets/shooter.png');
+const shooterSpecial = require('url:../../assets/shooter-special.png');
 
 export default class Shooter extends Phaser.Physics.Arcade.Image {
   velocityAmount: integer;
@@ -20,6 +21,15 @@ export default class Shooter extends Phaser.Physics.Arcade.Image {
 
   static loadInScene(scene: Phaser.Scene): void {
     scene.load.image('shooter', shooter);
+    scene.load.image('shooterSpecial', shooterSpecial);
+  }
+
+  updateTexture(isSpecial: boolean): void {
+    if (isSpecial) {
+      this.setTexture('shooterSpecial');
+    } else {
+      this.setTexture('shooter');
+    }
   }
 
   updateInScene(cursors: Phaser.Types.Input.Keyboard.CursorKeys): void {

@@ -9,7 +9,6 @@ export default class Background extends Phaser.GameObjects.Image {
 
     this.scene = scene;
     this.scene.add.image(0, 0, 'bg')
-      .setScale(0.38)
       .setOrigin(0, 0);
   }
 

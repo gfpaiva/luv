@@ -102,11 +102,11 @@ export class Main extends Phaser.Scene {
     specialTrigger.setPosition(Phaser.Math.Between(50, 1230), -100);
 
     this.special = true;
-    this.shooter?.setTint(0x0000ff);
+    this.shooter?.updateTexture(this.special);
 
     setTimeout(() => {
       this.special = false;
-      this.shooter?.clearTint();
+      this.shooter?.updateTexture(this.special);
     }, 5000);
   }
 
@@ -115,6 +115,7 @@ export class Main extends Phaser.Scene {
     Shooter.loadInScene(this);
     Target.loadInScene(this);
     Shot.loadInScene(this);
+    SpecialTrigger.loadInScene(this);
 
     this.load.audio('music', [music]);
     this.load.audio('scoreSound', [scoreSound]);
@@ -132,7 +133,7 @@ export class Main extends Phaser.Scene {
     // Background
     this.bg = new Background(this);
 
-    this.text = this.add.text(100, 100, '...');
+    this.text = this.add.text(50, 50, '...');
 
     // Game Objects
     this.shooter = new Shooter(this);

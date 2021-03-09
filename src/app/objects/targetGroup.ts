@@ -37,15 +37,15 @@ export default class TargetGroup {
 
   updateDelay(level: integer): void {
     if (level <= 15) {
-      this.targetsDelay = 1800 - (110 * level);
+      this.targetsDelay = 1800 - (145 * level);
     }
   }
 
   updateVelocity(level: integer): void {
     let [initial, final] = this.velocity;
 
-    initial = 50 + (level * 10);
-    final = 60 + (level * 15);
+    initial = 50 + (level * 20);
+    final = 60 + (level * 30);
 
     this.velocity = [initial, final];
   }
