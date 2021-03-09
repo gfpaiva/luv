@@ -14,9 +14,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Deploy using Node.js ${{ matrix.node-version }}
+    - name: Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm run deploy
+    - run: npm run predeploy
+    - name: GitHub Pages
+      uses: crazy-max/ghaction-github-pages@v2.2.0
+      with:
+        # Build directory to deploy
+        build_dir: dist
