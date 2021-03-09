@@ -15,8 +15,8 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
 
-    this.speed = 5;
-    this.lifespan = 5;
+    this.speed = 3;
+    this.lifespan = 1450;
   }
 
   static loadInScene(scene: Phaser.Scene): void {
@@ -30,7 +30,9 @@ export default class Shot extends Phaser.Physics.Arcade.Image {
   reset(x: number, y: number): void {
     this.setActive(true);
     this.setVisible(true);
-    this.lifespan = 900;
+
+    this.lifespan = 1450;
+
     this.setPosition(x, y);
   }
 

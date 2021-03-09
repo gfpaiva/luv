@@ -92,14 +92,8 @@ export class Main extends Phaser.Scene {
     TargetGroup.collider(undefined, tgt);
   }
 
-  setSpecial(
-    _: Phaser.Types.Physics.Arcade.GameObjectWithBody,
-    specialTrigger: Phaser.Types.Physics.Arcade.GameObjectWithBody,
-  ): void {
-    // @ts-ignore
-    specialTrigger.setVelocityY(0);
-    // @ts-ignore
-    specialTrigger.setPosition(Phaser.Math.Between(50, 1230), -100);
+  setSpecial(): void {
+    this.specialTrigger?.resetPosition();
 
     this.special = true;
     this.shooter?.updateTexture(this.special);
@@ -133,7 +127,7 @@ export class Main extends Phaser.Scene {
     // Background
     this.bg = new Background(this);
 
-    this.text = this.add.text(50, 50, '...');
+    this.text = this.add.text(25, 0, '...');
 
     // Game Objects
     this.shooter = new Shooter(this);
@@ -169,7 +163,7 @@ export class Main extends Phaser.Scene {
       loop: true,
       callback: () => {
         if (!this.special) {
-          this.specialTrigger?.setVelocityY(300);
+          this.specialTrigger?.trigger();
         }
       },
       callbackScope: this,
@@ -184,11 +178,8 @@ export class Main extends Phaser.Scene {
     this.physics.add.collider(
       this.specialTrigger,
       end,
-      (specialTrigger) => {
-        // @ts-ignore
-        specialTrigger.setVelocityY(0);
-        // @ts-ignore
-        specialTrigger.setPosition(Phaser.Math.Between(50, 1230), -100);
+      () => {
+        this.specialTrigger?.resetPosition();
       },
       undefined,
       this,
