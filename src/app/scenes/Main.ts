@@ -12,12 +12,13 @@ import {
 
 import {
   Background,
+  Loading,
   Shooter,
-  Target,
-  TargetGroup,
   Shot,
   ShotGroup,
   SpecialTrigger,
+  Target,
+  TargetGroup,
 } from '../objects';
 
 const music = require('url:../../assets/bg.mp3');
@@ -133,6 +134,9 @@ export class Main extends Phaser.Scene {
   }
 
   preload(): void {
+    const loading = new Loading(this);
+    loading.progress();
+
     Background.loadInScene(this);
     Shooter.loadInScene(this);
     Target.loadInScene(this);

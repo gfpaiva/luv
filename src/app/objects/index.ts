@@ -1,4 +1,5 @@
 export * from './background';
+export * from './loading';
 export * from './shooter';
 export * from './shot';
 export * from './shotGroup';

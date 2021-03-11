@@ -21,6 +21,7 @@ jobs:
     - run: npm ci
     - run: npm run predeploy
     - name: GitHub Pages
+      if: success()
       uses: crazy-max/ghaction-github-pages@v2.2.0
       with:
         # Build directory to deploy
