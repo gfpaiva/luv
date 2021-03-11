@@ -64,7 +64,7 @@ export class Main extends Phaser.Scene {
 
     this.level = 1;
     this.score = 0;
-    this.hp = 1;
+    this.hp = 3;
 
     this.special = false;
     this.specialTrigger = null;
